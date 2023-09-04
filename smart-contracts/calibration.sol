@@ -13,6 +13,7 @@ contract calibration {
     // mapping to store calibration data
     mapping (address => string) private data;
 
+    // function called in contract deployment
     constructor(address[] memory _robots) {
         robots = _robots;
         for (uint256 i = 0; i < robots.length; i++) {
