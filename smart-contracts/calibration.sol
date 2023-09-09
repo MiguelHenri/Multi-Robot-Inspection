@@ -46,12 +46,33 @@ contract calibration {
 
     }
 
+    function addInspector(address _inspector) public {
+
+        require (isInspector[_inspector] == false, "already a valid inspector");
+        require (msg.sender == owner, "you are not the owner");
+
+        // add valid inspector
+        isInspector[_inspector] = true;
+        
+    }
+
+    function removeInspector(address _inspector) public {
+
+        require (isInspector[_inspector] == true, "not a valid inspector");
+        require (msg.sender == owner, "you are not the owner");
+
+        // remove inspector
+        isInspector[_inspector] = false;
+        
+    }
+
     function sendCalibrationData(address _robot, string memory _calibrationInfo) public {
         
         require (isRobot[_robot] == true, "it is not a valid robot");
-        require (isInspector[msg.sender] == true, "not a valid inspector");
+        require (isInspector[msg.sender] == true, "you are not an authorized inspector");
 
         data[_robot] = _calibrationInfo;
 
     }
+
 }
