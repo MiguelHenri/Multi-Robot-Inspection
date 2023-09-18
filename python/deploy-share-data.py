@@ -90,7 +90,7 @@ def compile_sol():
 				
 				require(isRobot[msg.sender] == true, "sender is not a robot");
 
-				pointCloud[msg.sender]f.IPFS_Cid = _IPFS_Cid;
+				pointCloud[msg.sender].IPFS_Cid = _IPFS_Cid;
 
 			}
 
@@ -134,7 +134,7 @@ def main():
 	compiled_sol = compile_sol()
 
 	# Web3.py instance
-	w3 = Web3(Web3.EthereumTesterProvider("http://127.0.0.1:8545"))
+	w3 = Web3(Web3.EthereumTesterProvider(http://127.0.0.1:8545))
 
 	# Deploying and getting contract
 	shareData = deploy(w3, compiled_sol)
