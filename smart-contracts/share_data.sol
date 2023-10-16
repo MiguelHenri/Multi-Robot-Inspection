@@ -96,9 +96,12 @@ contract shareData {
         }
     }
 
-    function updateTemperature(Temperature memory _temp) public {
-
+    modifier checkRobot() {
         require(isRobot[msg.sender] == true, "sender is not a robot");
+        _;
+    }
+
+    function updateTemperature(Temperature memory _temp) public checkRobot() {
 
         temperatureData[msg.sender].header.seq = _temp.header.seq;
         temperatureData[msg.sender].header.frame_id = _temp.header.frame_id;
@@ -109,9 +112,7 @@ contract shareData {
 
     }
 
-    function updateHumidity(Humidity memory _hum) public {
-
-        require(isRobot[msg.sender] == true, "sender is not a robot");
+    function updateHumidity(Humidity memory _hum) public checkRobot() {
 
         humidityData[msg.sender].header.seq = _hum.header.seq;
         humidityData[msg.sender].header.frame_id = _hum.header.frame_id;
@@ -122,58 +123,44 @@ contract shareData {
 
     }
 
-    function updatePointCloud(string memory _IPFS_Cid) public {
-        
-        require(isRobot[msg.sender] == true, "sender is not a robot");
+    function updatePointCloud(string memory _IPFS_Cid) public checkRobot() {
 
         pointCloudData[msg.sender].IPFS_Cid = _IPFS_Cid;
 
     }
 
-    // need to change parameters !
-    function updateOdom(
-        uint32 seq,
-        uint32 stampSecs,
-        uint32 stampNsecs,
-        string memory frameId,
-        string memory childFrameId,
-        uint32[3] memory position,
-        uint32[4] memory orientation,
-        uint32[36] memory poseCovariance,
-        uint32[3] memory linear,
-        uint32[3] memory angular,
-        uint32[36] memory twistCovariance
-    ) public {
-        odomData[msg.sender].header.seq = seq;
-        odomData[msg.sender].header.stamp.secs = stampSecs;
-        odomData[msg.sender].header.stamp.nsecs = stampNsecs;
-        odomData[msg.sender].header.frame_id = frameId;
+    function updateOdom(Odom memory _odom) public checkRobot() {
 
-        odomData[msg.sender].child_frame_id = childFrameId;
+        odomData[msg.sender].header.seq = _odom.header.seq;
+        odomData[msg.sender].header.stamp.secs = _odom.header.stamp.secs;
+        odomData[msg.sender].header.stamp.nsecs = _odom.header.stamp.nsecs;
+        odomData[msg.sender].header.frame_id = _odom.header.frame_id;
 
-        odomData[msg.sender].pose.position.x = position[0];
-        odomData[msg.sender].pose.position.y = position[1];
-        odomData[msg.sender].pose.position.z = position[2];
+        odomData[msg.sender].child_frame_id = _odom.child_frame_id;
 
-        odomData[msg.sender].pose.orientation.x = orientation[0];
-        odomData[msg.sender].pose.orientation.y = orientation[1];
-        odomData[msg.sender].pose.orientation.z = orientation[2];
-        odomData[msg.sender].pose.orientation.w = orientation[3];
+        odomData[msg.sender].pose.position.x = _odom.pose.position.x;
+        odomData[msg.sender].pose.position.y = _odom.pose.position.y;
+        odomData[msg.sender].pose.position.z = _odom.pose.position.z;
+
+        odomData[msg.sender].pose.orientation.x = _odom.pose.orientation.x;
+        odomData[msg.sender].pose.orientation.y = _odom.pose.orientation.y;
+        odomData[msg.sender].pose.orientation.z = _odom.pose.orientation.z;
+        odomData[msg.sender].pose.orientation.w = _odom.pose.orientation.w;
 
         for (uint256 i = 0; i < 36; i++) {
-            odomData[msg.sender].pose.covariance[i] = poseCovariance[i];
+            odomData[msg.sender].pose.covariance[i] = _odom.pose.covariance[i];
         }
 
-        odomData[msg.sender].twist.linear.x = linear[0];
-        odomData[msg.sender].twist.linear.y = linear[1];
-        odomData[msg.sender].twist.linear.z = linear[2];
+        odomData[msg.sender].twist.linear.x = _odom.twist.linear.x;
+        odomData[msg.sender].twist.linear.y = _odom.twist.linear.y;
+        odomData[msg.sender].twist.linear.z = _odom.twist.linear.z;
 
-        odomData[msg.sender].twist.angular.x = angular[0];
-        odomData[msg.sender].twist.angular.y = angular[1];
-        odomData[msg.sender].twist.angular.z = angular[2];
+        odomData[msg.sender].twist.angular.x = _odom.twist.angular.x;
+        odomData[msg.sender].twist.angular.y = _odom.twist.angular.y;
+        odomData[msg.sender].twist.angular.z = _odom.twist.angular.z;
 
         for (uint256 i = 0; i < 36; i++) {
-            odomData[msg.sender].twist.covariance[i] = twistCovariance[i];
+            odomData[msg.sender].twist.covariance[i] = _odom.twist.covariance[i];
         }
     }
 
