@@ -16,6 +16,9 @@ contract calibration {
     // mapping to store calibration data
     mapping (address => string) private data;
 
+    // event for keeping logs
+    event Calibration(string data, address robot, address inspector);
+
     constructor(address[] memory _robots, address[] memory _inspectors) {
         owner = msg.sender;
         for (uint256 i = 0; i < _robots.length; i++) {
@@ -26,40 +29,41 @@ contract calibration {
         }
     }
 
-    function addRobot(address _robot) public {
+    modifier isOwner() {
+        require (msg.sender == owner, "you are not the owner");
+        _;
+    }
+
+    function addRobot(address _robot) public isOwner() {
 
         require (isRobot[_robot] == false, "already a valid robot");
-        require (msg.sender == owner, "you are not the owner");
 
         // add valid robot
         isRobot[_robot] = true;
 
     }
 
-    function removeRobot(address _robot) public {
+    function removeRobot(address _robot) public isOwner() {
 
         require (isRobot[_robot] == true, "not a valid robot");
-        require (msg.sender == owner, "you are not the owner");
-
+    
         // remove robot
         isRobot[_robot] = false;
 
     }
 
-    function addInspector(address _inspector) public {
+    function addInspector(address _inspector) public isOwner() {
 
         require (isInspector[_inspector] == false, "already a valid inspector");
-        require (msg.sender == owner, "you are not the owner");
 
         // add valid inspector
         isInspector[_inspector] = true;
         
     }
 
-    function removeInspector(address _inspector) public {
+    function removeInspector(address _inspector) public isOwner() {
 
         require (isInspector[_inspector] == true, "not a valid inspector");
-        require (msg.sender == owner, "you are not the owner");
 
         // remove inspector
         isInspector[_inspector] = false;
@@ -71,7 +75,11 @@ contract calibration {
         require (isRobot[_robot] == true, "it is not a valid robot");
         require (isInspector[msg.sender] == true, "you are not an authorized inspector");
 
+        // updating contract variable
         data[_robot] = _calibrationInfo;
+
+        // emmiting event
+        emit Calibration(_calibrationInfo, _robot, msg.sender);
 
     }
 

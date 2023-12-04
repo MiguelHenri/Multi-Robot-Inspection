@@ -4,6 +4,8 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract shareData {
 
+    // these structs are used to represent the ROS topic data
+
     struct Time {
         uint32 secs;
         uint32 nsecs;
@@ -45,24 +47,24 @@ contract shareData {
         uint32[36] covariance;
     }
 
-    struct Odom {
+    struct OdomData {
         Header header;
         string child_frame_id;
         Pose pose;
         Twist twist;
     }
 
-    struct Temperature {
+    struct TemperatureData {
         Header header;
         Data data;
     }
 
-    struct Humidity {
+    struct HumidityData {
         Header header;
         Data data;
     }
 
-    struct PointCloud {
+    struct PointCloudData {
         string IPFS_Cid;
     }
 
@@ -82,10 +84,16 @@ contract shareData {
     mapping (address => bool) private isRobot;
 
     // public variables that store robots data
-    mapping (address => Temperature) temperatureData;
-    mapping (address => Humidity) humidityData;
-    mapping (address => PointCloud) pointCloudData;
-    mapping (address => Odom) odomData;
+    mapping (address => TemperatureData) temperatureData;
+    mapping (address => HumidityData) humidityData;
+    mapping (address => PointCloudData) pointCloudData;
+    mapping (address => OdomData) odomData;
+
+    // events for keeping logs
+    event Temperature(TemperatureData temperature, address robot);
+    event Humidity(HumidityData humidity, address robot);
+    event PointCloud(PointCloudData pointCloud, address robot);
+    event Odom(OdomData odom, address robot);
 
     constructor(string memory _place, string memory _date, address[] memory _robots) {
         place = _place;
@@ -101,67 +109,44 @@ contract shareData {
         _;
     }
 
-    function updateTemperature(Temperature memory _temp) public checkRobot() {
+    function updateTemperature(TemperatureData memory _temperature) public checkRobot() {
 
-        temperatureData[msg.sender].header.seq = _temp.header.seq;
-        temperatureData[msg.sender].header.frame_id = _temp.header.frame_id;
-        temperatureData[msg.sender].header.stamp.secs = _temp.header.stamp.secs;
-        temperatureData[msg.sender].header.stamp.nsecs = _temp.header.stamp.nsecs;
-        temperatureData[msg.sender].data.value = _temp.data.value;
-        temperatureData[msg.sender].data.variance = _temp.data.variance;
+        // updating contract variable
+        temperatureData[msg.sender] = _temperature;
 
-    }
-
-    function updateHumidity(Humidity memory _hum) public checkRobot() {
-
-        humidityData[msg.sender].header.seq = _hum.header.seq;
-        humidityData[msg.sender].header.frame_id = _hum.header.frame_id;
-        humidityData[msg.sender].header.stamp.secs = _hum.header.stamp.secs;
-        humidityData[msg.sender].header.stamp.nsecs = _hum.header.stamp.nsecs;
-        humidityData[msg.sender].data.value = _hum.data.value;
-        humidityData[msg.sender].data.variance = _hum.data.variance;
+        // emmiting event
+        emit Temperature(_temperature, msg.sender);
 
     }
 
-    function updatePointCloud(string memory _IPFS_Cid) public checkRobot() {
+    function updateHumidity(HumidityData memory _humidity) public checkRobot() {
 
-        pointCloudData[msg.sender].IPFS_Cid = _IPFS_Cid;
+        // updating contract variable
+        humidityData[msg.sender] = _humidity;
+
+        // emmiting event
+        emit Humidity(_humidity, msg.sender);
 
     }
 
-    function updateOdom(Odom memory _odom) public checkRobot() {
+    function updatePointCloud(PointCloudData memory _point_cloud) public checkRobot() {
 
-        odomData[msg.sender].header.seq = _odom.header.seq;
-        odomData[msg.sender].header.stamp.secs = _odom.header.stamp.secs;
-        odomData[msg.sender].header.stamp.nsecs = _odom.header.stamp.nsecs;
-        odomData[msg.sender].header.frame_id = _odom.header.frame_id;
+        // updating contract variable
+        pointCloudData[msg.sender] = _point_cloud;
 
-        odomData[msg.sender].child_frame_id = _odom.child_frame_id;
+        // emmiting event
+        emit PointCloud(_point_cloud, msg.sender);
 
-        odomData[msg.sender].pose.position.x = _odom.pose.position.x;
-        odomData[msg.sender].pose.position.y = _odom.pose.position.y;
-        odomData[msg.sender].pose.position.z = _odom.pose.position.z;
+    }
 
-        odomData[msg.sender].pose.orientation.x = _odom.pose.orientation.x;
-        odomData[msg.sender].pose.orientation.y = _odom.pose.orientation.y;
-        odomData[msg.sender].pose.orientation.z = _odom.pose.orientation.z;
-        odomData[msg.sender].pose.orientation.w = _odom.pose.orientation.w;
+    function updateOdom(OdomData memory _odom) public checkRobot() {
 
-        for (uint256 i = 0; i < 36; i++) {
-            odomData[msg.sender].pose.covariance[i] = _odom.pose.covariance[i];
-        }
+        // updating contract variable
+        odomData[msg.sender] = _odom;
 
-        odomData[msg.sender].twist.linear.x = _odom.twist.linear.x;
-        odomData[msg.sender].twist.linear.y = _odom.twist.linear.y;
-        odomData[msg.sender].twist.linear.z = _odom.twist.linear.z;
+        // emmiting event
+        emit Odom(_odom, msg.sender);
 
-        odomData[msg.sender].twist.angular.x = _odom.twist.angular.x;
-        odomData[msg.sender].twist.angular.y = _odom.twist.angular.y;
-        odomData[msg.sender].twist.angular.z = _odom.twist.angular.z;
-
-        for (uint256 i = 0; i < 36; i++) {
-            odomData[msg.sender].twist.covariance[i] = _odom.twist.covariance[i];
-        }
     }
 
 }
