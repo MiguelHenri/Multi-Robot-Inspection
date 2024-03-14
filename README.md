@@ -4,20 +4,19 @@ A ROS-Blockchain framework for multi-robot systems applied to industrial safety 
 
 # 🗺 Overview
 
-This framework presupposes you have a robot (or simulator) running ROS and sharing odometry data through ROS topics. 
+This framework presupposes you have a robot (or simulator) running ROS and sharing odometry data through ROS topics. It bridges the ROS topic to an IBFT Hyperledger Besu blockchain network using the Web3.py library. Each robot has a PythonAPI capable of transacting to the blockchain network.
 
-It bridges the ROS topic to an IBFT Hyperledger Besu blockchain network using the Web3.py library. Each robot has a PythonAPI capable of transacting to the blockchain network.
+- See Hyperledger Besu documentation: https://besu.hyperledger.org/23.4.0/private-networks/tutorials/ibft.
 
-See Hyperledger Besu documentation: https://besu.hyperledger.org/23.4.0/private-networks/tutorials/ibft
-See Web3.py documentation: https://web3py.readthedocs.io/en/stable/
+- See Web3.py documentation: https://web3py.readthedocs.io/en/stable/.
 
 # 🖋 Smart Contracts
 
-This framework presents two smart contracts: Share Data and Calibration.
+This framework presents two smart contracts:
 
-Each robot's PythonAPI uses the Share Data contract to transact and share data collected in inspection tasks into the blockchain network.
+- `Share Data`: Each robot's PythonAPI uses the Share Data contract to transact and share data collected in inspection tasks into the blockchain network.
 
-Technicians use the calibration contract to keep the robots calibrated and safe.
+- `Calibration`: Technicians use the calibration contract to keep the robots calibrated and safe.
 
 # 🕹 How to Run
 
