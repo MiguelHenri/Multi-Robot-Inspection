@@ -16,7 +16,7 @@ This framework presents two smart contracts:
 
 # 🕹 How to Run
 
-## Data acquisition
+## Data Acquisition
 
 In our tests and research system evaluation we used the [CoppeliaSim](https://coppeliarobotics.com/) to simulate four robots collecting data. We collected odometry (pose) data into .txt files.
 
@@ -45,9 +45,13 @@ In our research, we collected the transaction time. You can run using:
 ```
 
 ⚠️ Make sure:
-- The files, contract address and private keys are named correctly;
+- The files, contract address, and private keys are named correctly;
+- The file paths are set correctly;
 - You have all python files installed;
-- Your blockchain network is running fine.
+- Your blockchain network is running fine;
+- Your data is not too big (will take a long time).
+
+For running in real-time, ensure your evaluation can read the data from a ROS-topic. You can do this using [subprocess](https://docs.python.org/3/library/subprocess.html).
 
 # 🤝 Contributor
 - https://github.com/rodrigodg1
