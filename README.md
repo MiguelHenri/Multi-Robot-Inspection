@@ -18,7 +18,7 @@ This framework presents two smart contracts:
 
 ## Data Acquisition
 
-In our tests and research system evaluation we used the [CoppeliaSim](https://coppeliarobotics.com/) to simulate four robots collecting data. We collected odometry (pose) data into .txt files.
+In our tests and research system evaluation we used the [CoppeliaSim](https://coppeliarobotics.com/) to simulate four robots collecting data. We collected odometry (pose) data into .txt files. Check [/data](https://github.com/MiguelHenri/Multi-Robot-Inspection/tree/main/data) for more information. 
 
 Our framework can handle any data type (Share Data contract and PythonAPI may be adapted for another data type). 
 
