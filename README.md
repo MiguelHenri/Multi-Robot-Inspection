@@ -41,7 +41,7 @@ Before sending transactions, make sure the Share Data contract is deployed into 
 In our research, we collected the transaction time. You can run using:
 
 ```bash
-../python$ python3.py time_evaluation.py
+../python$ python3 time_evaluation.py
 ```
 
 ⚠️ Make sure:
