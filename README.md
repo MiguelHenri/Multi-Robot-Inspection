@@ -41,7 +41,7 @@ Before sending transactions, make sure the Share Data contract is deployed into 
 In our research, we collected the transaction time. You can run using:
 
 ```bash
-../python$ python3 time_evaluation.py
+$ python3 time_evaluation.py
 ```
 
 ⚠️ Make sure:
@@ -52,6 +52,30 @@ In our research, we collected the transaction time. You can run using:
 - Your data is not too big (will take a long time).
 
 For running in real-time, ensure your evaluation can read the data from a ROS-topic. You can do this using [subprocess](https://docs.python.org/3/library/subprocess.html).
+
+## Faulty Node Evaluation
+
+We collected the transaction time with a faulty validator node in our blockchain Besu network. To do this, just kill one of the validator nodes' terminal.  
+
+##  Delayed Evaluation
+
+In our research, we also collected the transaction time inducing delay to the blockchain network. To do this, run this [Linux Traffic Control](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/linux-traffic-control_configuring-and-managing-networking) command:
+
+```bash
+$ sudo tc qdisc add dev lo root netem delay 100ms
+```
+- Command example for inducing 100ms delay. 
+- Make sure your Besu network interface is 'lo'.
+
+Check if the delay is working running:
+
+```bash
+$ sudo tc qdisc show dev lo
+```
+
+## Charts
+
+Check [/charts](https://github.com/MiguelHenri/Multi-Robot-Inspection/tree/main/charts) for the Python code used to make the Faulty Node and Delayed evaluation graphs. They use [matplotlib](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html).
 
 # 🤝 Contributor
 - https://github.com/rodrigodg1
