@@ -30,7 +30,6 @@ def read_file(file_name):
 		data = file.read()
 	return data
 
-
 # Gets a block of Odom.txt and clears to an Odom object: 
 def clear_odom(block):
 	
@@ -115,4 +114,3 @@ def cleanPose(file_name):
 			clean_blocks.append(clear_pose(block))
 
 	return clean_blocks
-

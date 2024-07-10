@@ -73,6 +73,16 @@ Check if the delay is working running:
 $ sudo tc qdisc show dev lo
 ```
 
+## Centralized Evaluation
+
+For research purposes, we also assessed transaction times with a centralized database.
+> We employed PostgreSQL for this purpose.
+
+To run the code, make sure you have PostgreSQL installed and running. Configure the database constants in the `main` function of `centralized.py`. Then, execute the following command:
+```bash
+$ python3 centralized.py
+```
+
 ## Charts
 
 Check [/charts](https://github.com/MiguelHenri/Multi-Robot-Inspection/tree/main/charts) for the Python code used to make the Faulty Node and Delayed evaluation graphs. They use [matplotlib](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html).
