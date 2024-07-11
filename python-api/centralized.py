@@ -6,6 +6,30 @@ from threading import Thread
 
 import odom_structures
 
+# *** Summary *** #
+
+# This python code reads Odometry (Pose) ROS data from:
+# pose1.txt - the Node 1 odomedry data file
+# pose2.txt - the Node 2 odomedry data file
+# pose3.txt - the Node 3 odomedry data file
+# pose4.txt - the Node 4 odomedry data file
+
+# Then,
+# it creates transactions to PostgreSQL database and get its time.
+
+# All data is sent in transactions made simultaneously.
+# This is done using threads.
+
+# Output files:
+# out_times1.txt - the Node 1 transaction times
+# out_times2.txt - the Node 2 transaction times
+# out_times3.txt - the Node 3 transaction times
+# out_times4.txt - the Node 4 transaction times
+#                               (time in seconds)
+
+# *** Code *** #
+
+# Dropping table and creating a new one, to make transactions
 def setup_database(db):
     cur = db.cursor()
     cur.execute('''
@@ -39,6 +63,8 @@ def setup_database(db):
     db.commit()
     cur.close()
 
+# Interacting with the PostgreSQL database, by inserting odom data into table,
+# and collecting the transaction time
 def interact(db, odom):
     with db.cursor() as cur:
         sql_query = sql.SQL('''
@@ -61,6 +87,7 @@ def interact(db, odom):
             odom.angular_x, odom.angular_y, odom.angular_z, str(odom.twist_covariance)
         )
 
+        # Getting time
         start = time.time()
         cur.execute(sql_query, values)
         db.commit()
@@ -69,6 +96,7 @@ def interact(db, odom):
         print('Done! Time:', aux_time, 'seconds.')
         return aux_time
 
+# Function used to send transactions simultaneously, using Threads
 def sendTransactionsSimultaneously(db, odomData):
     threads = []
     times = []
@@ -82,6 +110,8 @@ def sendTransactionsSimultaneously(db, odomData):
     
     return times
 
+# Reading odom (pose) data from the files,
+# returns the odomData list, with the data read for each file
 def readOdomData(files):
     print('Reading files...')
     odomData = []
@@ -90,6 +120,7 @@ def readOdomData(files):
     print('Done!')
     return list(zip(*odomData)) # Transposing
 
+# Writing the times collected into output files
 def writeTimesToFile(transactionTimes):
     print('Writing times...')
     transactionTimes = [list(column) for column in zip(*transactionTimes)]
@@ -99,8 +130,9 @@ def writeTimesToFile(transactionTimes):
                 f.write(f'{time}\n')
     print('Done!')
 
+# Main function
 def main():
-    # Set this correctly
+    # You need to set these constants correctly
     db = psycopg2.connect(
         dbname='', 
         user='', 
@@ -114,8 +146,6 @@ def main():
     files = ['pose1.txt', 'pose2.txt', 'pose3.txt', 'pose4.txt']
 
     odomData = readOdomData(files)
-
-    print(odomData)
 
     transactionTimes = []
     for i, odom in enumerate(odomData, start=1):
