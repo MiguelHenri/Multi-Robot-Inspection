@@ -18,7 +18,7 @@ This framework presents two smart contracts:
 
 ## Data Acquisition
 
-In our tests and research system evaluation we used the [CoppeliaSim](https://coppeliarobotics.com/) to simulate four robots collecting data. We collected odometry (pose) data into .txt files. Check [/data](https://github.com/MiguelHenri/Multi-Robot-Inspection/tree/main/data) for more information. 
+We used the [CoppeliaSim](https://coppeliarobotics.com/) to simulate four robots collecting data in our tests and research system evaluation. We collected odometry (pose) data into .txt files. Check [/data](https://github.com/MiguelHenri/Multi-Robot-Inspection/tree/main/data) for more information. 
 
 Our framework can handle any data type (Share Data contract and PythonAPI may be adapted for another data type). 
 
@@ -47,11 +47,10 @@ $ python3 time_evaluation.py
 ⚠️ Make sure:
 - The files, contract address, and private keys are named correctly;
 - The file paths are set correctly;
-- You have all python files installed;
-- Your blockchain network is running fine;
-- Your data is not too big (will take a long time).
+- You have all Python files installed;
+- Your blockchain network is running fine.
 
-For running in real-time, ensure your evaluation can read the data from a ROS-topic. You can do this using [subprocess](https://docs.python.org/3/library/subprocess.html).
+To run in real-time, ensure your evaluation can read the data from a ROS topic. You can do this using [subprocess](https://docs.python.org/3/library/subprocess.html).
 
 ## Faulty Node Evaluation
 
@@ -59,7 +58,7 @@ We collected the transaction time with a faulty validator node in our blockchain
 
 ##  Delayed Evaluation
 
-In our research, we also collected the transaction time inducing delay to the blockchain network. To do this, run this [Linux Traffic Control](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/linux-traffic-control_configuring-and-managing-networking) command:
+Our research also collected the transaction time when inducing a delay in the blockchain network. To do this, run this [Linux Traffic Control](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/linux-traffic-control_configuring-and-managing-networking) command:
 
 ```bash
 $ sudo tc qdisc add dev lo root netem delay 100ms
@@ -67,7 +66,7 @@ $ sudo tc qdisc add dev lo root netem delay 100ms
 - Command example for inducing 100ms delay. 
 - Make sure your Besu network interface is 'lo'.
 
-Check if the delay is working running:
+Check if the delay is working and running:
 
 ```bash
 $ sudo tc qdisc show dev lo
@@ -85,7 +84,7 @@ $ python3 centralized.py
 
 ## Charts
 
-Check [/charts](https://github.com/MiguelHenri/Multi-Robot-Inspection/tree/main/charts) for the Python code used to make the Faulty Node and Delayed evaluation graphs. They use [matplotlib](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html).
+Check [/charts](https://github.com/MiguelHenri/Multi-Robot-Inspection/tree/main/charts) for the three Python scripts employed to build the evaluation box-plot graphs. They use [matplotlib](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.boxplot.html).
 
 # 🤝 Contributor
 - https://github.com/rodrigodg1
