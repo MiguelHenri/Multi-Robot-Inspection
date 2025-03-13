@@ -15,6 +15,8 @@ size_intervals_bytes = size_per_minute * time_intervals # Total size in bytes fo
 # Convert the size to megabytes (1 MB = 1,048,576 bytes)
 size_intervals_mb = size_intervals_bytes / 1048576 # Size in megabytes
 
+plt.rcParams.update({'font.size': 14})
+
 # Plotting the graph
 plt.plot(time_intervals / 60, size_intervals_mb, label="Memory Size", linestyle='-', marker='o')
 
