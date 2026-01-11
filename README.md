@@ -34,6 +34,14 @@ Our network was configured with four validator nodes and a 2-second block produc
 
 ## PythonAPI
 
+Before running any Python code, create and activate a virtual environment and install the dependencies:
+
+```bash
+$ python3 -m venv venv
+$ source venv/bin/activate
+$ pip3 install -r requirements.txt
+```
+
 With the data collected and the blockchain network running, the PythonAPI creates transactions using [Web3.py](https://web3py.readthedocs.io/en/stable/.).
 
 Before sending transactions, make sure the Share Data contract is deployed into the network, you can do this using [RemixIDE](https://remix.ethereum.org/) and [Metamask](https://metamask.io/). Set the local network with the same ChainID as your local blockchain and save the contract address. 
@@ -46,7 +54,7 @@ $ python3 time_evaluation.py
 
 ⚠️ Make sure:
 - The files, contract address, and private keys are named correctly;
-- The file paths are set correctly;
+- The file paths are set correctly (e.g. pose1.txt);
 - You have all Python files installed;
 - Your blockchain network is running fine.
 

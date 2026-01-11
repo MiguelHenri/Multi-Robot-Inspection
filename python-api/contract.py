@@ -1,7 +1,13 @@
-from solcx import compile_source
+from solcx import compile_source, install_solc, set_solc_version
 
 # Compiling our Share Data smart contract:
 def compile_sol():
+    # Install solidity compiler
+    install_solc("0.8.2")
+
+    # Set version
+    set_solc_version("0.8.2")
+
     # Solidity source code
     compiled_sol = compile_source(
         '''
